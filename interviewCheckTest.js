@@ -13,7 +13,7 @@
 ///////////My data of objects to reference
 const onesObject = {
   //access value by onesObject[key]
-  0: "",
+  0: " ",
   1: "one",
   2: "two",
   3: "three",
@@ -39,7 +39,7 @@ const teenObject = {
 };
 
 const tensObject = {
-  0: "",
+  0: " ",
   2: "twenty",
   3: "thirty",
   4: "forty",
@@ -50,12 +50,18 @@ const tensObject = {
   9: "ninety",
 };
 
+//not working correctly yet on what is reported on html website
+// function setInputAnswer(){
+//   var inputAnswer = document.getElementById("userAnswer").value;
+  
+//   console.log({inputAnswer});
+//   return userCheck = inputAnswer;
+// };
 
-/////////!!!got issue if 0 is in cents like 40 as the 0 is erased on array
 
+//main amount I am checking $2523.04
 // var userCheck = 2523.04;
-var userCheck = 2891.40;
-// var userCheck = document.getElementsByName("numberInput");
+var userCheck = 8522523.04;
 
 //convert to string
 var userString = userCheck.toString(); ///"2523.04"
@@ -97,7 +103,7 @@ function convertTensWord(inputReverseArray){
     var tensPlace = teenObject[inputReverseArray[0]]; //"thirteen"
     var tenOneString = `${tensPlace} `;
   }else{
-    ///section where tens place is anything but 1....problem what about 0s? 
+    ///section where tens place is anything but 1....) should be empty
     var onesPlace = onesObject[inputReverseArray[0]];
     var tensPlace = tensObject[inputReverseArray[1]];
     var tenOneString = `${tensPlace} ${onesPlace} `;
@@ -105,33 +111,49 @@ function convertTensWord(inputReverseArray){
   return tenOneString;
 };
 
+function getHundredsBeyond(inputReverseArray){
+  var hundredsPlace = onesObject[inputReverseArray[2]];
+  var hundredsPlaceString = `${hundredsPlace} hundred `;
+  var thousandHundredsPlace = onesObject[inputReverseArray[5]];
+  var thousandHundredsPlaceString = `${thousandHundredsPlace} hundred `;
+  if(inputReverseArray[4] == 1){
+    var tenThousandPlace = teenObject[inputReverseArray[4]]; 
+    var tenThousandString = `${tenThousandPlace} thousand `;
+  }else{
+    var thousandPlace = onesObject[inputReverseArray[3]];
+    var tenThousandPlace = tensObject[inputReverseArray[4]];
+    var tenThousandString= `${tenThousandPlace} ${thousandPlace} thousand `;
+  }
+  var finalHundreds = thousandHundredsPlaceString+tenThousandString+hundredsPlaceString;
+  return finalHundreds;
+};
+
+
 //Now on to the dollars section and reversing it
 function getOnlyDollars(){
+  
   if(userArray.includes('.')){
-    //third to last of array aka where the period is
-    var periodPosition = originalLength - 3; //4
     userArray //array I want to adjust  ["2", "5", "2", "3", ".", "0", "4"] size 7
     
     //removing last 3 entries in array as I don't need them
-    var dollarArray = userArray.slice(0, periodPosition); // (4) ["2", "5", "2", "3"]
+    var dollarArray = userArray.slice(0, indexOfPeriod); // (4) ["2", "5", "2", "3"]
 
     //reverse Array as I think it is easier to take each position starting with ones then tens then hundreds place
     var reverseArray = dollarArray.reverse(); //(4) ["3", "2", "5", "2"]
         
       //determining numbers starting with tens place
     var resultsTensOne =  convertTensWord(reverseArray);
+    var resultsThousands = getHundredsBeyond(reverseArray);
   }else{
     var reverseArrayWithNoCents = userArray.reverse();
     //then need to do the same calculation on tens place but make it dry might pull it out of both calculations
     var resultsTensOne = convertTensWord(reverseArrayWithNoCents);
+    var resultsThousands = getHundredsBeyond(reverseArray);
 
   };
-  return resultsTensOne;
+  return resultsThousands+resultsTensOne;
 };
 
-function getHundredsBeyond(){
-
-};
 
 ///how to do else if
 function findMyNumberFool(x){
@@ -149,6 +171,7 @@ function findMyNumberFool(x){
 //Report final result
 var finalResultReport = getOnlyDollars() + calculateCents();
 function FinalWord(){
+  // setInputAnswer();
 	document.getElementById('root').innerHTML = finalResultReport;
 	
 }
