@@ -114,7 +114,7 @@ var myObject = [{ first: "Romeo", last: "Montague" }, { first: "Mercutio", last:
 var source = { last: "Capulet" };
 console.log(karenResult);
 
-myObject.findIndex(x=>Object.values(x)==);
+myObject.findIndex(x=>Object.values(x)==0);
 
 
 ///This below will solve it but just for that problem
@@ -124,7 +124,7 @@ myObject.findIndex(x=>x.last ==Object.values(source));
 
 
 //////////////////
-function() {
+
 	var newReleases = [
 		{
 			"id": 70111470,
@@ -160,7 +160,7 @@ function() {
 		}
 	],
 
-newReleases.findIndex(x=>x.id==675465);
+// newReleases.findIndex(x=>x.id==675465);
 newReleases.map(x=>Object.values(x).filter(x=>x=="Fracture"));
 //answer from the above is 3!!! works 
 ////////////Other testing

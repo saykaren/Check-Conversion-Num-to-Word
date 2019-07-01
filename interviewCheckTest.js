@@ -1,5 +1,5 @@
 
-// 2. Write code that will accept a number and convert it to the appropriate string representation for a check.
+// INTERVIEW QUESTION: Write code that will accept a number and convert it to the appropriate string representation for a check.
 // Basic Requirements:
 
 // Represent numbers to the hundredth position (pennies)
@@ -39,6 +39,7 @@ const teenObject = {
 };
 
 const tensObject = {
+  0: "",
   2: "twenty",
   3: "thirty",
   4: "forty",
@@ -50,9 +51,10 @@ const tensObject = {
 };
 
 
+/////////!!!got issue if 0 is in cents like 40 as the 0 is erased on array
 
-
-var userCheck = 2523.04;
+// var userCheck = 2523.04;
+var userCheck = 2891.40;
 // var userCheck = document.getElementsByName("numberInput");
 
 //convert to string
@@ -64,17 +66,24 @@ var userArray = Array.from(userString); ///(7) ["2", "5", "2", "3", ".", "0", "
 
 //get length of original so I know what I am working with
 var originalLength = userArray.length; //7 for this case
+var indexOfPeriod = userArray.indexOf(".");
 
-function calculateCents(originalLength){
-	var sliceAreaStart = originalLength - 2;
+function calculateCents(){
+	var sliceAreaStart = indexOfPeriod+1;
 	var sliceAreaEnd = sliceAreaStart+2;
 	//taking userArray and pulling out the last two items
-	var cents = userArray.slice(sliceAreaStart,sliceAreaEnd); //pulls out ["0", "4"]
-	//join array into string
-	var stringCents = cents.join(""); //make string "04"
+  var cents = userArray.slice(sliceAreaStart,sliceAreaEnd); //pulls out ["0", "4"]
+
+  //If the cents was a number than zero it causes issues. Check for second item in array to be zero;
+  if(cents.length ==1){
+    cents.push("0");
+  };
+  //join array into string
+  var stringCents = cents.join(""); //make string "04"
+
 	// if the cents are 00 then the array doesn't include . //checking for that then I want cents to then equal string of 04/100 dollars 
 	if(userArray.includes(".")){
-		var results = stringCents +="/100 dollars";
+		var results = ` and ${stringCents}/100 dollars`;
 	}else{
 		var results = "dollars";
 			}
@@ -86,12 +95,12 @@ function convertTensWord(inputReverseArray){
   //determine tens place first
   if(inputReverseArray[1] == 1){
     var tensPlace = teenObject[inputReverseArray[0]]; //"thirteen"
-    var tenOneString = `${tensPlace} and `;
+    var tenOneString = `${tensPlace} `;
   }else{
     ///section where tens place is anything but 1....problem what about 0s? 
     var onesPlace = onesObject[inputReverseArray[0]];
     var tensPlace = tensObject[inputReverseArray[1]];
-    var tenOneString = `${tensPlace} ${onesPlace} and `;
+    var tenOneString = `${tensPlace} ${onesPlace} `;
   };
   return tenOneString;
 };
@@ -120,6 +129,10 @@ function getOnlyDollars(){
   return resultsTensOne;
 };
 
+function getHundredsBeyond(){
+
+};
+
 ///how to do else if
 function findMyNumberFool(x){
 	if(x!==1 && x!==0){
@@ -134,7 +147,7 @@ function findMyNumberFool(x){
 
 
 //Report final result
-var finalResultReport = getOnlyDollars() + calculateCents(originalLength);
+var finalResultReport = getOnlyDollars() + calculateCents();
 function FinalWord(){
 	document.getElementById('root').innerHTML = finalResultReport;
 	
