@@ -60,8 +60,9 @@ const tensObject = {
 
 
 //main amount I am checking $2523.04
-// var userCheck = 2523.04;
-var userCheck = 8522523.04;
+var userCheck = 2523.04;
+// var userCheck = 8522523.04;
+// var userCheck =1000;
 
 //convert to string
 var userString = userCheck.toString(); ///"2523.04"
@@ -124,7 +125,11 @@ function getHundredsBeyond(inputReverseArray){
     var tenThousandPlace = tensObject[inputReverseArray[4]];
     var tenThousandString= `${tenThousandPlace} ${thousandPlace} thousand `;
   }
-  var finalHundreds = thousandHundredsPlaceString+tenThousandString+hundredsPlaceString;
+
+  var resultUncapitalized = thousandHundredsPlaceString+tenThousandString+hundredsPlaceString;
+  
+  //Capitalized at first character in the final result 
+  var finalHundreds = resultUncapitalized.charAt(0).toUpperCase()+resultUncapitalized.slice(1);
   return finalHundreds;
 };
 

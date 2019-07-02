@@ -183,26 +183,6 @@ var todos =[];
 // 	console.log(`Hi, ${person}!`);
 // }
 
-function displayTodos(todoArray){
-	console.log(`My todos: ${todoArray}`);
-};
-
-function addTodo(addedTodo){
-	todos.push(addedTodo);
-	displayTodos(todos);
-};
-
-function changeTodo(todoIndex, changedTodoDetail){
-	todos[todoIndex] = changedTodoDetail;
-	displayTodos(todos);
-};
-
-function deleteTodo(todoIndex, removeHowMany){
-	todos.splice(todoIndex, removeHowMany);
-	displayTodos(todos);
-};
-
-
 function findMyNumberFool(x){
 	if(x!==1 && x!==0){
 		var result = x;
@@ -213,5 +193,3 @@ function findMyNumberFool(x){
 	}
 	return result;
 }
-
-
