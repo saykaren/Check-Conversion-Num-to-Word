@@ -13,7 +13,6 @@
 ///////////My data of objects to reference
 const onesObject = {
   //access value by onesObject[key]
-  0: " ",
   1: "one",
   2: "two",
   3: "three",
@@ -39,7 +38,6 @@ const teenObject = {
 };
 
 const tensObject = {
-  0: " ",
   2: "twenty",
   3: "thirty",
   4: "forty",
@@ -60,16 +58,26 @@ const tensObject = {
 
 
 //main amount I am checking $2523.04
-var userCheck = 2523.04;
-// var userCheck = 8522523.04;
+var userCheck = 5262523.04; //
+
+// const input = document.querySelector('input');
+// const log = document.getElementById('answer');
+
+// input.addEventListener('input', updateValue);
+
+// function updateValue(e) {
+//   log.textContent = e.srcElement.value;
+// }
+
+// document.getElementById("userAnswer").value = "0";
+// var userCheck = document.getElementById("userAnswer").value
+
 // var userCheck =1000;
 
-//convert to string
-var userString = userCheck.toString(); ///"2523.04"
-// var userString = JSON.stringify(userCheck);
-
-//convert number to array
-var userArray = Array.from(userString); ///(7) ["2", "5", "2", "3", ".", "0", "4"]
+////////////////////////////////////////////////////////////
+//convert to string then to array 
+var userArray = Array.from(userCheck.toString()); ///(7) ["2", "5", "2", "3", ".", "0", "4"]
+var reverseArray = userArray.slice(0, indexOfPeriod).reverse();
 
 //get length of original so I know what I am working with
 var originalLength = userArray.length; //7 for this case
@@ -99,34 +107,66 @@ function calculateCents(){
 
 //function to determine conversion to wording
 function convertTensWord(inputReverseArray){
-  //determine tens place first
-  if(inputReverseArray[1] == 1){
-    var tensPlace = teenObject[inputReverseArray[0]]; //"thirteen"
-    var tenOneString = `${tensPlace} `;
-  }else{
-    ///section where tens place is anything but 1....) should be empty
-    var onesPlace = onesObject[inputReverseArray[0]];
-    var tensPlace = tensObject[inputReverseArray[1]];
-    var tenOneString = `${tensPlace} ${onesPlace} `;
+    //determines if 0
+    if(inputReverseArray[1] !== 0 || inputReverseArray[1] !== undefined){
+    //determine tens place first
+    if(inputReverseArray[1] == 1){
+      var tensPlace = teenObject[inputReverseArray[0]]; //"thirteen"
+      var tenOneString = `${tensPlace} `;
+    }else{
+      ///section where tens place is anything but 1....) should be empty
+      var onesPlace = onesObject[inputReverseArray[0]];
+      var tensPlace = tensObject[inputReverseArray[1]];
+      var tenOneString = `${tensPlace} ${onesPlace} `;
+    };
   };
   return tenOneString;
 };
 
 function getHundredsBeyond(inputReverseArray){
-  var hundredsPlace = onesObject[inputReverseArray[2]];
-  var hundredsPlaceString = `${hundredsPlace} hundred `;
-  var thousandHundredsPlace = onesObject[inputReverseArray[5]];
-  var thousandHundredsPlaceString = `${thousandHundredsPlace} hundred `;
-  if(inputReverseArray[4] == 1){
-    var tenThousandPlace = teenObject[inputReverseArray[4]]; 
-    var tenThousandString = `${tenThousandPlace} thousand `;
-  }else{
-    var thousandPlace = onesObject[inputReverseArray[3]];
-    var tenThousandPlace = tensObject[inputReverseArray[4]];
-    var tenThousandString= `${tenThousandPlace} ${thousandPlace} thousand `;
-  }
+  
+  //Hundreds place is [2]
+  if(inputReverseArray[2] !== 0 || inputReverseArray[2] !== undefined){
+    var hundredsPlace = onesObject[inputReverseArray[2]];
+    var hundredsPlaceString = `${hundredsPlace} hundred `;
+  };
 
-  var resultUncapitalized = thousandHundredsPlaceString+tenThousandString+hundredsPlaceString;
+  //Hundreds thousands place is [4]  
+  if(inputReverseArray[5] !== 0 || inputReverseArray[5] !== undefined){
+    var thousandHundredsPlace = onesObject[inputReverseArray[5]];
+    var thousandHundredsPlaceString = `${thousandHundredsPlace} hundred `;
+  };
+  
+  //Check ten thousand first to determine thousands place
+  if(inputReverseArray[4] !== 0 || inputReverseArray[4] !== undefined){
+    if(inputReverseArray[4] == 1){
+      var tenThousandPlace = teenObject[inputReverseArray[4]]; 
+      var tenThousandString = `${tenThousandPlace} thousand `;
+    }else{
+      if(inputReverseArray[3] !== 0 || inputReverseArray[3] !== undefined){
+        var thousandPlace = onesObject[inputReverseArray[3]];
+        var tenThousandPlace = tensObject[inputReverseArray[4]];
+        var tenThousandString= `${tenThousandPlace} ${thousandPlace} thousand `;
+      };
+    };
+  };
+
+  //check tens million
+  if(inputReverseArray[7] !== 0 || inputReverseArray[7] !== undefined){
+    if(inputReverseArray[7] == 1){
+      var tenMillionPlace = teenObject[inputReverseArray[7]];
+      var tenMillionString = `${tenMillionPlace} million `;
+    } else {
+      if(inputReverseArray[6] !== 0 || inputReverseArray[6] !== undefined){
+        var millionPlace = onesObject[inputReverseArray[6]];
+        var millionString = `${millionPlace} million `;
+        var tenMillionPlace = onesObject[inputReverseArray[7]];
+        var tenMillionString = `${tenMillionPlace}`;
+      };
+    };
+  };
+
+  var resultUncapitalized = tenMillionString+millionString+thousandHundredsPlaceString+tenThousandString+hundredsPlaceString;
   
   //Capitalized at first character in the final result 
   var finalHundreds = resultUncapitalized.charAt(0).toUpperCase()+resultUncapitalized.slice(1);
@@ -174,7 +214,7 @@ function findMyNumberFool(x){
 
 
 //Report final result
-var finalResultReport = getOnlyDollars() + calculateCents();
+var finalResultReport = getHundredsBeyond(reverseArray) + getOnlyDollars() + calculateCents();
 function FinalWord(){
   // setInputAnswer();
 	document.getElementById('root').innerHTML = finalResultReport;
