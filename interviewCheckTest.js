@@ -1,14 +1,11 @@
 
-// INTERVIEW QUESTION: Write code that will accept a number and convert it to the appropriate string representation for a check.
-// Basic Requirements:
-
-// Represent numbers to the hundredth position (pennies)
-// Represent numbers at least to $999,999,999,999.99
-// Example:
-
-// Convert 2523.04 to "Two thousand five hundred twenty-three and 04/100 dollars"
-
-// Have fun with these and take them step-by-step ensuring to check that everything works as expected along the way.
+/*INTERVIEW QUESTION: Write code that will accept a number and convert it to the appropriate string representation for a check.
+Basic Requirements:
+Represent numbers to the hundredth position (pennies)
+Represent numbers at least to $999,999,999,999.99
+Example:
+Convert 2523.04 to "Two thousand five hundred twenty-three and 04/100 dollars"
+Have fun with these and take them step-by-step ensuring to check that everything works as expected along the way.*/
 
 ///////////My data of objects to reference
 const onesObject = {
@@ -51,7 +48,7 @@ const tensObject = {
 
 //main amount I am checking $2523.04
 // var userCheck = 2523.04; //
-var userCheck = 523100.04;
+var userCheck = 652523100.04;
 // var checkObject = {
 //   check: [],
 //   addCheck: function(checkString, position){
@@ -145,7 +142,6 @@ function getHundredsBeyond(){
     };
   }else{
     var tenThousandString = "";
-    console.log(`results ten thousand ${tenThousandString}`);
   };
 
   //Hundreds thousands place is [4]  
@@ -157,7 +153,6 @@ function getHundredsBeyond(){
   };
   
   var resultUncapitalized = thousandHundredsPlaceString+tenThousandString+hundredsPlaceString;
-  console.log({resultUncapitalized});
   return resultUncapitalized;
 };
  
@@ -170,48 +165,35 @@ function tensMillions(){
    if(dollarReverseArray[7] !== "0" && (typeof(dollarReverseArray[7]) !== "undefined")){
     if(dollarReverseArray[7] == 1){
       var tenMillionPlace = teenObject[dollarReverseArray[7]];
-      var tenMillionString = `${tenMillionPlace} million `;
+      var tenMillionString = `${tenMillionPlace} `;
     } else {
       if(dollarReverseArray[6] !== "0" && (typeof(dollarReverseArray[6]) !== "undefined")){
         var millionPlace = onesObject[dollarReverseArray[6]];
-        var millionString = `${millionPlace} million `;
-        var tenMillionPlace = onesObject[dollarReverseArray[7]];
-        var tenMillionString = `${tenMillionPlace}`;
+        var millionString = `${millionPlace} `;
+        var tenMillionPlace = tensObject[dollarReverseArray[7]];
+        var tenMillionString = `${tenMillionPlace} `;
       };
     };
-  return 
-  };
+  }else{
+    var tenMillionString = "";
+    var millionString = "";
+  }
+  return tenMillionString+millionString+" million ";
 };
 
-//Now on to the dollars section and reversing it
-// function getOnlyDollars(){
-  
-//   if(userArray.includes('.')){
-//     userArray //array I want to adjust  ["2", "5", "2", "3", ".", "0", "4"] size 7
-    
-//     //removing last 3 entries in array as I don't need them
-//     var dollarArray = userArray.slice(0, indexOfPeriod); // (4) ["2", "5", "2", "3"]
-
-//     //reverse Array as I think it is easier to take each position starting with ones then tens then hundreds place
-//     var reverseArray = dollarArray.reverse(); //(4) ["3", "2", "5", "2"]
-        
-//       //determining numbers starting with tens place
-//     var resultsTensOne =  convertTensWord(reverseArray);
-//     var resultsThousands = getHundredsBeyond(reverseArray);
-//   }else{
-//     var reverseArrayWithNoCents = userArray.reverse();
-//     //then need to do the same calculation on tens place but make it dry might pull it out of both calculations
-//     var resultsTensOne = convertTensWord(reverseArrayWithNoCents);
-//     var resultsThousands = getHundredsBeyond(reverseArray);
-
-//   };
-//   return resultsThousands+resultsTensOne;
-// };
-
+function hundredMillion(){
+  if(dollarReverseArray[8] !== "0" && (typeof(dollarReverseArray[8]) !== "undefined")){
+    var hundredMillionPlace = onesObject[dollarReverseArray[8]];
+    var hundredMillionString = `${hundredMillionPlace} hundred `;
+  }else{
+    var hundredMillionString = "";
+  };
+  return hundredMillionString;
+};
 
 
 //Report final result
-var finalResultReport = tensMillions()+getHundredsBeyond() + convertTensWord() + calculateCents();
+var finalResultReport = hundredMillion()+tensMillions()+getHundredsBeyond() + convertTensWord() + calculateCents();
 function FinalWord(){
   // setInputAnswer();
 	document.getElementById('root').innerHTML = finalResultReport;
