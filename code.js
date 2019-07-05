@@ -193,3 +193,6 @@ function findMyNumberFool(x){
 	}
 	return result;
 }
+
+var newArray = [0, 1, 0, 0, 4];
+newArray.map(x=> (!newArray[x]==0) ? console.log(${newArray[x]}) : console.log("nope"));
