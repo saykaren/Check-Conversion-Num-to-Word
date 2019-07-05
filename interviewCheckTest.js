@@ -45,16 +45,20 @@ const tensObject = {
   9: "ninety",
 };
 
+function checkOverall(){
+
 
 //main amount I am checking $2523.04
 // var userCheck = 2523.04; //
-var userCheck = 652523100.00; //652,523,100.04
+// var userCheck = 652523100.00; //652,523,100.04
 // var userCheck = 802152520000.40; //$802,152,520,000.40
+var userCheck = document.getElementById("firstInput").value;
 
 
 ////////////////////////////////////////////////////////////
 //convert to string then to array 
 var userArray = Array.from(userCheck.toString()); ///(7) ["2", "5", "2", "3", ".", "0", "4"]
+
 
 //get length of original so I know what I am working with
 var originalLength = userArray.length; //7 for this case
@@ -62,8 +66,6 @@ var indexOfPeriod = userArray.indexOf("."); // 4 for this case
 
 var dollarArray = userArray.slice(0, indexOfPeriod); //(4) ["3", "2", "5", "2"]
 var dollarReverseArray = dollarArray.reverse();
-
-
 
 
 function calculateCents(){
@@ -134,7 +136,6 @@ function getThousands(){
         var thousandPlace = onesObject[dollarReverseArray[3]];
         var tenThousandPlace = tensObject[dollarReverseArray[4]];
         var tenThousandString= `${tenThousandPlace} ${thousandPlace} thousand `;
-        console.log(`ten thousand isn't object ${tenThousandString}`);
       }else{
         var tenThousandString = "";
       };
@@ -155,7 +156,6 @@ function getThousands(){
   }else{
     var thousandHundredsPlaceString = "";
   };
-  console.log(tenThousandString);
   return thousandHundredsPlaceString+tenThousandString;
 
 };
@@ -196,12 +196,17 @@ function hundredMillion(){
 
 //Report final result
 var finalResultReport = hundredMillion()+tensMillions()+getThousands()+getHundredsBeyond() + convertTensWord() + calculateCents();
-function FinalWord(){
-  // setInputAnswer();
-	document.getElementById('root').innerHTML = finalResultReport;
-	
-};
 
   // //Capitalized at first character in the final result 
-  // var finalHundreds = resultUncapitalized.charAt(0).toUpperCase()+resultUncapitalized.slice(1);
-  // console.log(finalHundreds);
+  var finalHundreds = finalResultReport.charAt(0).toUpperCase()+finalResultReport.slice(1);
+
+  var resultSection = document.getElementById('answer');
+  var resultsText = document.createTextNode(finalHundreds);
+  resultSection.appendChild(resultsText);
+
+  // var resultSection = document.getElementById('answer').innerHTML;
+  // resultSection.appendChild(document.createTextNode("hello"));
+  // document.getElementsByName('answer').value = finalHundreds;
+  console.log(finalHundreds);
+ return finalHundreds;
+};
