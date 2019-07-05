@@ -48,16 +48,9 @@ const tensObject = {
 
 //main amount I am checking $2523.04
 // var userCheck = 2523.04; //
-var userCheck = 652523100.04;
-// var checkObject = {
-//   check: [],
-//   addCheck: function(checkString, position){
-//     this.check.push({
-//       indexNum: position,
-//       checkValue: checkString,
-//     });
-//   },
-// };
+var userCheck = 652523100.00; //652,523,100.04
+// var userCheck = 802152520000.40; //$802,152,520,000.40
+
 
 ////////////////////////////////////////////////////////////
 //convert to string then to array 
@@ -126,22 +119,33 @@ function getHundredsBeyond(){
     var hundredsPlaceString = '';
   };
 
+ return resultUncapitalized = hundredsPlaceString;
+};
+ 
+function getThousands(){
   //Check ten thousand first to determine thousands place
   if(dollarReverseArray[4] !== "0" && (typeof(dollarReverseArray[4]) !== "undefined")){
     if(dollarReverseArray[4] == 1){
-      var tenThousandPlace = teenObject[dollarReverseArray[4]]; 
+      var tenThousandPlace = teenObject[dollarReverseArray[3]]; 
       var tenThousandString = `${tenThousandPlace} thousand `;
+      console.log(`ten object ${tenThousandString}`);
     }else{
       if(dollarReverseArray[3] !== "0" && (typeof(dollarReverseArray[3]) !== "undefined")){
         var thousandPlace = onesObject[dollarReverseArray[3]];
         var tenThousandPlace = tensObject[dollarReverseArray[4]];
         var tenThousandString= `${tenThousandPlace} ${thousandPlace} thousand `;
+        console.log(`ten thousand isn't object ${tenThousandString}`);
       }else{
         var tenThousandString = "";
       };
     };
   }else{
-    var tenThousandString = "";
+    if(dollarReverseArray[3] !== "0" && (typeof(dollarReverseArray[3]) !== "undefined")){
+      var thousandPlace = onesObject[dollarReverseArray[3]];
+      var tenThousandString = `${thousandPlace} thousand ` 
+    }else{
+      var tenThousandString = "";
+    };
   };
 
   //Hundreds thousands place is [4]  
@@ -151,12 +155,10 @@ function getHundredsBeyond(){
   }else{
     var thousandHundredsPlaceString = "";
   };
-  
-  var resultUncapitalized = thousandHundredsPlaceString+tenThousandString+hundredsPlaceString;
-  return resultUncapitalized;
-};
- 
+  console.log(tenThousandString);
+  return thousandHundredsPlaceString+tenThousandString;
 
+};
 
 
 //Check millions place [6] tens million[7]
@@ -165,11 +167,11 @@ function tensMillions(){
    if(dollarReverseArray[7] !== "0" && (typeof(dollarReverseArray[7]) !== "undefined")){
     if(dollarReverseArray[7] == 1){
       var tenMillionPlace = teenObject[dollarReverseArray[7]];
-      var tenMillionString = `${tenMillionPlace} `;
+      var tenMillionString = `${tenMillionPlace} million `;
     } else {
       if(dollarReverseArray[6] !== "0" && (typeof(dollarReverseArray[6]) !== "undefined")){
         var millionPlace = onesObject[dollarReverseArray[6]];
-        var millionString = `${millionPlace} `;
+        var millionString = `${millionPlace} million `;
         var tenMillionPlace = tensObject[dollarReverseArray[7]];
         var tenMillionString = `${tenMillionPlace} `;
       };
@@ -178,7 +180,7 @@ function tensMillions(){
     var tenMillionString = "";
     var millionString = "";
   }
-  return tenMillionString+millionString+" million ";
+  return tenMillionString+millionString;
 };
 
 function hundredMillion(){
@@ -193,7 +195,7 @@ function hundredMillion(){
 
 
 //Report final result
-var finalResultReport = hundredMillion()+tensMillions()+getHundredsBeyond() + convertTensWord() + calculateCents();
+var finalResultReport = hundredMillion()+tensMillions()+getThousands()+getHundredsBeyond() + convertTensWord() + calculateCents();
 function FinalWord(){
   // setInputAnswer();
 	document.getElementById('root').innerHTML = finalResultReport;
